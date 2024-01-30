@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
             "0",
             style: TextStyle(fontSize: 20),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 29),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
