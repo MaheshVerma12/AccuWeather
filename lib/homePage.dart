@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.purple[600],
         title: Text(
-          "Local Weather",
+          "Local Weather Info",
           style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
