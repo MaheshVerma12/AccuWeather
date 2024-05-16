@@ -289,8 +289,9 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       SizedBox(height: 3),
                                       Text(
-                                        state.weather.tempMax!.celsius!
-                                            .roundToDouble()
+                                        ((state.weather.tempMax!.celsius!
+                                                    .roundToDouble()) +
+                                                2)
                                             .toString(),
                                         style: TextStyle(
                                           color: Colors.white,
@@ -321,8 +322,9 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       SizedBox(height: 3),
                                       Text(
-                                        state.weather.tempMin!.celsius!
-                                            .roundToDouble()
+                                        ((state.weather.tempMin!.celsius!
+                                                    .roundToDouble()) -
+                                                2)
                                             .toString(),
                                         style: TextStyle(
                                           color: Colors.white,
