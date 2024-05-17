@@ -13,7 +13,6 @@ class NbaData extends StatelessWidget {
 
   Future getTeams() async {
     final response = await dio.get('https://api.balldontlie.io/v1/teams',
-        // Send authorization headers to the backend.
         options: Options(
           headers: {
             'Authorization': '849c736a-e3d5-43b7-ad2e-4ae7c6dac5ad',
