@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:worksmart/model/teams.dart';
 
 class NbaData extends StatelessWidget {
@@ -9,17 +9,19 @@ class NbaData extends StatelessWidget {
 
   List<Team> teams = [];
 
+  final dio = Dio();
+
   Future getTeams() async {
-    final response = await http.get(
-      Uri.parse('https://api.balldontlie.io/v1/teams'),
-      // Send authorization headers to the backend.
-      headers: {
-        HttpHeaders.authorizationHeader: '849c736a-e3d5-43b7-ad2e-4ae7c6dac5ad',
-      },
-    );
-    print(response.body);
-    var jsonData = jsonDecode(response.body);
-    for (var eachTeam in jsonData['data']) {
+    final response = await dio.get('https://api.balldontlie.io/v1/teams',
+        // Send authorization headers to the backend.
+        options: Options(
+          headers: {
+            'Authorization': '849c736a-e3d5-43b7-ad2e-4ae7c6dac5ad',
+          },
+        ));
+
+    print(response.data);
+    for (var eachTeam in response.data['data']) {
       final team = Team(
           abbreviation: eachTeam['abbreviation'],
           full_names: eachTeam['full_name'],

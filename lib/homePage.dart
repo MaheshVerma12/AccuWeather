@@ -351,7 +351,7 @@ class _HomePageState extends State<HomePage> {
                                     builder: (context) => NbaData()),
                               );
                             },
-                            child: Text("Switch to NBA Information",
+                            child: Text("Show NBA Teams Information",
                                 style: TextStyle(color: Colors.white)),
                             style: ElevatedButton.styleFrom(
                                 minimumSize: Size(
