@@ -9,18 +9,15 @@ import 'package:worksmart/nbadata.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_bloc.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_state.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomePage extends StatelessWidget {
+  final cityName;
+  const HomePage({super.key, required this.cityName});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   String getGreeting() {
     DateTime str = DateTime.now();
     String timevar = "${str.hour}";
     int timevarint = int.parse(timevar);
+
     if (timevarint < 12) {
       return ("Good Morning!");
     } else {
@@ -144,11 +141,15 @@ class _HomePageState extends State<HomePage> {
                             getGreeting(),
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 25,
+                              fontSize: 26,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          getWeatherIcon(state.weather.weatherConditionCode!),
+                          Container(
+                              height: 250,
+                              width: 250,
+                              child: getWeatherIcon(
+                                  state.weather.weatherConditionCode!)),
                           Center(
                             child: Text(
                               '${state.weather.tempFeelsLike!.celsius!.round()}°C',

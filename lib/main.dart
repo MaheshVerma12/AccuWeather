@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:worksmart/homePage.dart';
+import 'package:worksmart/splash/splashScreen.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_bloc.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_event.dart';
 
@@ -15,25 +16,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return BlocProvider<WeatherBlocBloc>(
+      create: (context) => WeatherBlocBloc(),
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: FutureBuilder(
-            future: _determinePosition(),
-            builder: (context, snap) {
-              if (snap.hasData) {
-                return BlocProvider<WeatherBlocBloc>(
-                  create: (context) => WeatherBlocBloc()
-                    ..add(FetchWeather(snap.data as Position)),
-                  child: HomePage(),
-                );
-              } else {
-                return const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-            }));
+        home: const SplashScreen(),
+      ),
+    );
   }
 }
 
