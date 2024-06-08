@@ -29,35 +29,35 @@ class HomePage extends StatelessWidget {
     switch (code) {
       case >= 200 && < 300:
         return ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(15),
             child: Image.asset('assets/thunderstorm.png'));
       case >= 300 && < 400:
         return ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(15),
             child: Image.asset('assets/drizzle.png'));
       case >= 500 && < 600:
         return ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(15),
             child: Image.asset("assets/raining.png"));
       case >= 600 && < 700:
         return ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(15),
             child: Image.asset("assets/snow.png"));
       case >= 700 && < 800:
         return ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(15),
             child: Image.asset("assets/haze.png"));
       case == 800:
         return ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(15),
             child: Image.asset("assets/sunny.png"));
       case > 800 && < 900:
         return ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(15),
             child: Image.asset("assets/cloudy_icon.png"));
       default:
         return ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(15),
             child: Image.asset("assets/sunny.png"));
     }
   }
