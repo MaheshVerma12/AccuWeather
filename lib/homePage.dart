@@ -19,46 +19,51 @@ class HomePage extends StatelessWidget {
     int timevarint = int.parse(timevar);
 
     if (timevarint < 12) {
-      return ("Good Morning!");
+      return ("Good Morning !");
     } else {
-      return ("Good Evening!");
+      return ("Good Evening !");
     }
   }
 
-  Widget getWeatherIcon(int code) {
+  String getWeatherIcon(int code) {
     switch (code) {
       case >= 200 && < 300:
-        return ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image.asset('assets/thunderstorm.png'));
+        return "assets/thunderstorm.png";
       case >= 300 && < 400:
-        return ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image.asset('assets/drizzle.png'));
+        return 'assets/drizzle.png';
       case >= 500 && < 600:
-        return ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image.asset("assets/raining.png"));
+        return "assets/raining.png";
       case >= 600 && < 700:
-        return ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image.asset("assets/snow.png"));
+        return "assets/snow.png";
       case >= 700 && < 800:
-        return ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image.asset("assets/haze.png"));
+        return "assets/haze.png";
       case == 800:
-        return ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image.asset("assets/sunny.png"));
+        return "assets/sunny.png";
       case > 800 && < 900:
-        return ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image.asset("assets/cloudy_icon.png"));
+        return "assets/cloudy_icon.png";
       default:
-        return ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image.asset("assets/sunny.png"));
+        return "assets/sunny.png";
+    }
+  }
+
+  String getTipString(int code) {
+    switch (code) {
+      case >= 200 && < 300:
+        return "Try to stay indoors and avoid plugging in electrical appliances.";
+      case >= 300 && < 400:
+        return 'Enjoy the droplets !';
+      case >= 500 && < 600:
+        return "Don't forget to take an umbrella with you !";
+      case >= 600 && < 700:
+        return "Don't forget to play snowfight !";
+      case >= 700 && < 800:
+        return "Don't forget your mask when going outside !";
+      case == 800:
+        return "Enjoy the Sun !";
+      case > 800 && < 900:
+        return "Enjoy the clouds !";
+      default:
+        return "Have a good day !";
     }
   }
 
@@ -145,11 +150,15 @@ class HomePage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Container(
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
                               height: 250,
                               width: 250,
-                              child: getWeatherIcon(
+                              child: Image.asset(getWeatherIcon(
                                   state.weather.weatherConditionCode!)),
+                            ),
+                          ),
                           Center(
                             child: Text(
                               '${state.weather.tempFeelsLike!.celsius!.round()}°C',
@@ -165,7 +174,7 @@ class HomePage extends StatelessWidget {
                               '${state.weather.areaName}',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20,
+                                fontSize: 22,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -189,11 +198,11 @@ class HomePage extends StatelessWidget {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
-                                fontWeight: FontWeight.w300,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
                           ),
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 15),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -338,27 +347,37 @@ class HomePage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Divider(
-                              color: Colors.grey,
+                          Padding(
+                            padding: const EdgeInsets.all(6.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: Text(
+                                    'Tip of the day :)',
+                                    style: TextStyle(
+                                        fontSize: 35,
+                                        fontWeight: FontWeight.w900,
+                                        fontStyle: FontStyle.italic,
+                                        color: Colors.purple[700],
+                                        letterSpacing: 2.5),
+                                  ),
+                                ),
+                                Center(
+                                  child: Text(
+                                    getTipString(
+                                        state.weather.weatherConditionCode!),
+                                    style: TextStyle(
+                                      fontSize: 27,
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FontStyle.italic,
+                                      color: Colors.blue[200],
+                                      letterSpacing: 2,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => NbaData()),
-                              );
-                            },
-                            child: Text("Show NBA Teams Information",
-                                style: TextStyle(color: Colors.white)),
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: Size(
-                                    (MediaQuery.of(context).size.width * 0.95),
-                                    50),
-                                backgroundColor: Colors.purple[600]),
                           ),
                         ],
                       ),

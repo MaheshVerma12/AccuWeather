@@ -38,7 +38,7 @@ class _LandingScreenState extends State<LandingScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(20.0),
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(115),
                     child: Image.asset("assets/Earth1.jpeg")),
