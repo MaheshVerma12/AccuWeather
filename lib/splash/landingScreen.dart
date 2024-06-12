@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:worksmart/homePage.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_bloc.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_event.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
@@ -21,7 +24,7 @@ class _LandingScreenState extends State<LandingScreen> {
     return Scaffold(
       backgroundColor: Colors.blue[300],
       appBar: AppBar(
-        backgroundColor: Colors.purple[300],
+        backgroundColor: Colors.purple[500],
         title: Text(
           "AccuWeather",
           style: TextStyle(
@@ -35,14 +38,12 @@ class _LandingScreenState extends State<LandingScreen> {
         child: Form(
           key: _formKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(115),
-                    child: Image.asset("assets/Earth1.jpeg")),
-              ),
+              Container(
+                  height: 260,
+                  width: 260,
+                  child: Lottie.asset('assets/earthanimation.json')),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -54,7 +55,7 @@ class _LandingScreenState extends State<LandingScreen> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(20.0),
                 child: TextFormField(
                   controller: textController,
                   onChanged: (value) => setState(() {
@@ -95,7 +96,7 @@ class _LandingScreenState extends State<LandingScreen> {
                 style: ElevatedButton.styleFrom(
                     minimumSize:
                         Size((MediaQuery.of(context).size.width * 0.95), 50),
-                    backgroundColor: Colors.purple[600]),
+                    backgroundColor: Colors.purple[500]),
               ),
             ],
           ),

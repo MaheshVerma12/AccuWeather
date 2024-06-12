@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/weather.dart';
 import 'package:worksmart/get_weather_icon.dart';
-import 'package:worksmart/nbadata.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_bloc.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_state.dart';
 
@@ -51,19 +50,19 @@ class HomePage extends StatelessWidget {
       case >= 200 && < 300:
         return "Try to stay indoors and avoid plugging in electrical appliances.";
       case >= 300 && < 400:
-        return 'Enjoy the droplets !';
+        return 'Enjoy the droplets :)';
       case >= 500 && < 600:
-        return "Don't forget to take an umbrella with you !";
+        return "Don't forget to take an umbrella with you :)";
       case >= 600 && < 700:
-        return "Don't forget to play snowfight !";
+        return "Don't forget to play snowfight :)";
       case >= 700 && < 800:
-        return "Don't forget your mask when going outside !";
+        return "Don't forget your mask when going outside :)";
       case == 800:
-        return "Enjoy the Sun !";
+        return "Smile, today is a clear day :)";
       case > 800 && < 900:
-        return "Enjoy the clouds !";
+        return "Enjoy the clouds :)";
       default:
-        return "Have a good day !";
+        return "Have a good day :)";
     }
   }
 
@@ -361,25 +360,29 @@ class HomePage extends StatelessWidget {
                                 children: [
                                   Center(
                                     child: Text(
-                                      'Tip of the day :)',
+                                      'Tip of the day ',
                                       style: TextStyle(
                                           fontSize: 35,
                                           fontWeight: FontWeight.w900,
                                           fontStyle: FontStyle.italic,
                                           color: Colors.purple[700],
-                                          letterSpacing: 2.5),
+                                          letterSpacing: 2.5,
+                                          decoration: TextDecoration.underline,
+                                          decorationStyle:
+                                              TextDecorationStyle.dashed),
                                     ),
                                   ),
                                   Center(
-                                    child: Text(
-                                      getTipString(
-                                          state.weather.weatherConditionCode!),
-                                      style: TextStyle(
-                                        fontSize: 27,
-                                        fontWeight: FontWeight.w500,
-                                        fontStyle: FontStyle.italic,
-                                        color: Colors.blue[200],
-                                        letterSpacing: 2,
+                                    child: Expanded(
+                                      child: Text(
+                                        getTipString(state
+                                            .weather.weatherConditionCode!),
+                                        style: TextStyle(
+                                          fontSize: 27,
+                                          fontWeight: FontWeight.w500,
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.blue[200],
+                                        ),
                                       ),
                                     ),
                                   ),

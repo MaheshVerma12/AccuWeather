@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather/weather.dart';
 import 'package:worksmart/splash/landingScreen.dart';
-import 'package:worksmart/data/my_data.dart';
+import 'package:worksmart/constants/api_key.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_event.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_state.dart';
 
