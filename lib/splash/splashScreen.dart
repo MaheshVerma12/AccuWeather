@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:worksmart/homePage.dart';
 import 'package:worksmart/splash/landingScreen.dart';
 
@@ -32,11 +33,9 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 150,
-              width: 150,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: Image.asset("assets/weatherappicon.jpg")),
+              height: 300,
+              width: 300,
+              child: Lottie.asset('assets/splashanimation.json'),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),

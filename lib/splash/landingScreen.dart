@@ -21,7 +21,7 @@ class _LandingScreenState extends State<LandingScreen> {
     return Scaffold(
       backgroundColor: Colors.blue[300],
       appBar: AppBar(
-        backgroundColor: Colors.indigo[400],
+        backgroundColor: Colors.purple[300],
         title: Text(
           "AccuWeather",
           style: TextStyle(
