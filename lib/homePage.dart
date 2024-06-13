@@ -7,63 +7,32 @@ import 'package:weather/weather.dart';
 import 'package:worksmart/get_weather_icon.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_bloc.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_state.dart';
+import 'package:worksmart/getStrings.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final cityName;
-  const HomePage({super.key, required this.cityName});
+  HomePage({super.key, required this.cityName});
 
-  String getGreeting() {
-    DateTime str = DateTime.now();
-    String timevar = "${str.hour}";
-    int timevarint = int.parse(timevar);
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
-    if (timevarint < 12) {
-      return ("Good Morning !");
-    } else {
-      return ("Good Evening !");
-    }
-  }
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  late Animation animation1;
+  late AnimationController animationController;
 
-  String getWeatherIcon(int code) {
-    switch (code) {
-      case >= 200 && < 300:
-        return "assets/thunderstorm.png";
-      case >= 300 && < 400:
-        return 'assets/drizzle.png';
-      case >= 500 && < 600:
-        return "assets/raining.png";
-      case >= 600 && < 700:
-        return "assets/snow.png";
-      case >= 700 && < 800:
-        return "assets/haze.png";
-      case == 800:
-        return "assets/sunny.png";
-      case > 800 && < 900:
-        return "assets/cloudy_icon.png";
-      default:
-        return "assets/sunny.png";
-    }
-  }
-
-  String getTipString(int code) {
-    switch (code) {
-      case >= 200 && < 300:
-        return "Try to stay indoors and avoid plugging in electrical appliances.";
-      case >= 300 && < 400:
-        return 'Enjoy the droplets :)';
-      case >= 500 && < 600:
-        return "Don't forget to take an umbrella with you :)";
-      case >= 600 && < 700:
-        return "Don't forget to play snowfight :)";
-      case >= 700 && < 800:
-        return "Don't forget your mask when going outside :)";
-      case == 800:
-        return "Smile, today is a clear day :)";
-      case > 800 && < 900:
-        return "Enjoy the clouds :)";
-      default:
-        return "Have a good day :)";
-    }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 3));
+    animation1 = Tween(begin: 0.0, end: 250.0).animate(animationController);
+    animationController.addListener(() {
+      setState(() {});
+    });
+    animationController.forward();
   }
 
   @override
@@ -135,6 +104,7 @@ class HomePage extends StatelessWidget {
                 BlocBuilder<WeatherBlocBloc, WeatherBlocState>(
                   builder: (context, state) {
                     if (state is WeatherBlocSuccess) {
+                      var strObj = new GetStrings();
                       return SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height,
@@ -143,20 +113,22 @@ class HomePage extends StatelessWidget {
                           children: [
                             SizedBox(height: 25),
                             Text(
-                              getGreeting(),
+                              strObj.getGreeting(),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 26,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Container(
-                                height: 250,
-                                width: 250,
-                                child: Image.asset(getWeatherIcon(
-                                    state.weather.weatherConditionCode!)),
+                            Center(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Container(
+                                  height: animation1.value,
+                                  width: animation1.value,
+                                  child: Image.asset(strObj.getWeatherIcon(
+                                      state.weather.weatherConditionCode!)),
+                                ),
                               ),
                             ),
                             Center(
@@ -362,7 +334,7 @@ class HomePage extends StatelessWidget {
                                     child: Text(
                                       'Tip of the day ',
                                       style: TextStyle(
-                                          fontSize: 35,
+                                          fontSize: 30,
                                           fontWeight: FontWeight.w900,
                                           fontStyle: FontStyle.italic,
                                           color: Colors.purple[700],
@@ -373,9 +345,10 @@ class HomePage extends StatelessWidget {
                                     ),
                                   ),
                                   Center(
-                                    child: Expanded(
+                                    child: FittedBox(
+                                      fit: BoxFit.fill,
                                       child: Text(
-                                        getTipString(state
+                                        strObj.getTipString(state
                                             .weather.weatherConditionCode!),
                                         style: TextStyle(
                                           fontSize: 27,
