@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/weather.dart';
-import 'package:worksmart/get_weather_icon.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_bloc.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_state.dart';
 import 'package:worksmart/getStrings.dart';
@@ -26,8 +25,8 @@ class _HomePageState extends State<HomePage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 3));
+    animationController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 3000));
     animation1 = Tween(begin: 0.0, end: 250.0).animate(animationController);
     animationController.addListener(() {
       setState(() {});
