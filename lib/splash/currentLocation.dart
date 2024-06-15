@@ -18,18 +18,19 @@ class _CurrentLocationState extends State<CurrentLocation> {
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      SnackBar(content: Text('Enable location service'));
+      return Future.error('Location services are disabled.');
     }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      permission = await Geolocator.checkPermission();
+      permission = await Geolocator.requestPermission();
 
       if (permission == LocationPermission.denied) {
-        SnackBar(content: Text('Location Permission is denied'));
+        return Future.error('Location permissions are denied');
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      SnackBar(content: Text('Permission denied forever'));
+      return Future.error(
+          'Location permissions are denied forever, we cannot request permissions.');
     }
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
