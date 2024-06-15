@@ -76,6 +76,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
                     style: TextStyle(fontSize: 20, color: Colors.white)),
               ],
             ),
+            SizedBox(height: 5),
             Row(
               children: [
                 Text(
@@ -93,6 +94,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
                     : Container(),
               ],
             ),
+            SizedBox(height: 5),
             Row(
               children: [
                 Text('Longitude: ',
