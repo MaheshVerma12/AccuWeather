@@ -1,6 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:worksmart/homePage.dart';
+import 'package:worksmart/weather_bloc/weather_bloc_bloc.dart';
+import 'package:worksmart/weather_bloc/weather_bloc_event.dart';
 
 class CurrentLocation extends StatefulWidget {
   const CurrentLocation({super.key});
@@ -12,6 +18,7 @@ class CurrentLocation extends StatefulWidget {
 class _CurrentLocationState extends State<CurrentLocation> {
   String currentAddress = 'My Address';
   Position? currentPosition;
+  String? city;
 
   Future<Position?> _determinePosition() async {
     bool serviceEnabled;
@@ -41,6 +48,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
       setState(() {
         currentPosition = position;
         currentAddress = "${place.locality}, ${place.country}";
+        city = (place.locality).toString();
       });
     } catch (e) {
       print(e);
@@ -111,7 +119,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
                     : Container(),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
                 _determinePosition();
@@ -119,9 +127,47 @@ class _CurrentLocationState extends State<CurrentLocation> {
               child: Text('Locate me', style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
                   minimumSize:
-                      Size((MediaQuery.of(context).size.width * 0.4), 50),
+                      Size((MediaQuery.of(context).size.width * 0.8), 50),
                   backgroundColor: Colors.purple[500]),
             ),
+            SizedBox(height: 10),
+            ElevatedButton(
+                child: Text('Get current location data',
+                    style: TextStyle(color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  minimumSize:
+                      Size((MediaQuery.of(context).size.width * 0.8), 50),
+                  backgroundColor: Colors.purple[500],
+                ),
+                onPressed: () {
+                  _determinePosition();
+                  if (city != null) {
+                    BlocProvider.of<WeatherBlocBloc>(context)
+                        .add(FetchWeather(cityName: city));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HomePage(
+                                  cityName: city,
+                                )));
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              actions: [
+                                TextButton(
+                                  child: Text('Close'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                              title: Text('Error'),
+                              content: Text('Locate yourself first!'),
+                              contentPadding: const EdgeInsets.all(8),
+                            ));
+                  }
+                }),
           ],
         ),
       ),

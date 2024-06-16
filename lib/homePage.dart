@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage>
     // TODO: implement initState
     super.initState();
     animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 3000));
+        vsync: this, duration: Duration(milliseconds: 2500));
     animation1 = Tween(begin: 0.0, end: 250.0).animate(animationController);
     animationController.addListener(() {
       setState(() {});

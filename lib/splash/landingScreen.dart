@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -19,6 +21,7 @@ class _LandingScreenState extends State<LandingScreen> {
   static final textController = new TextEditingController();
   static String cityName1 = '';
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  CurrentLocation obj = new CurrentLocation();
 
   @override
   Widget build(BuildContext context) {
@@ -79,17 +82,39 @@ class _LandingScreenState extends State<LandingScreen> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    BlocProvider.of<WeatherBlocBloc>(context)
-                        .add(FetchWeather(cityName: cityName1));
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomePage(
-                                cityName: cityName1,
-                              )),
-                    );
+                onPressed: () async {
+                  try {
+                    final result =
+                        await InternetAddress.lookup('www.google.com');
+                    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                      if (_formKey.currentState!.validate()) {
+                        BlocProvider.of<WeatherBlocBloc>(context)
+                            .add(FetchWeather(cityName: cityName1));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomePage(
+                                    cityName: cityName1,
+                                  )),
+                        );
+                      }
+                    }
+                  } on SocketException catch (_) {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              actions: [
+                                TextButton(
+                                  child: Text('Close'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                              title: Text('Error'),
+                              content: Text('No Internet Connection!'),
+                              contentPadding: const EdgeInsets.all(8),
+                            ));
                   }
                 },
                 child: Text("Get weather information",
@@ -101,13 +126,36 @@ class _LandingScreenState extends State<LandingScreen> {
               ),
               SizedBox(height: 5),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CurrentLocation()),
-                  );
+                onPressed: () async {
+                  try {
+                    final result =
+                        await InternetAddress.lookup('www.google.com');
+                    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CurrentLocation()),
+                      );
+                    }
+                  } on SocketException catch (_) {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              actions: [
+                                TextButton(
+                                  child: Text('Close'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                              title: Text('Error'),
+                              content: Text('No Internet Connection!'),
+                              contentPadding: const EdgeInsets.all(8),
+                            ));
+                  }
                 },
-                child: Text("Get current location",
+                child: Text("Current Location Weather",
                     style: TextStyle(color: Colors.white)),
                 style: ElevatedButton.styleFrom(
                     minimumSize:
