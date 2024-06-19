@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:worksmart/homePage.dart';
+import 'package:worksmart/splash/cached_data.dart';
 import 'package:worksmart/splash/currentLocation.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_bloc.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_event.dart';
@@ -90,6 +91,7 @@ class _LandingScreenState extends State<LandingScreen> {
                       if (_formKey.currentState!.validate()) {
                         BlocProvider.of<WeatherBlocBloc>(context)
                             .add(FetchWeather(cityName: cityName1));
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -105,14 +107,26 @@ class _LandingScreenState extends State<LandingScreen> {
                         builder: (context) => AlertDialog(
                               actions: [
                                 TextButton(
-                                  child: Text('Close'),
+                                  child: Text('Yes'),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              HomePage(cityName: cityName1)),
+                                    );
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text('No'),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
                                 ),
                               ],
                               title: Text('Error'),
-                              content: Text('No Internet Connection!'),
+                              content: Text(
+                                  'You are offline. Do you want to see cached data?'),
                               contentPadding: const EdgeInsets.all(8),
                             ));
                   }

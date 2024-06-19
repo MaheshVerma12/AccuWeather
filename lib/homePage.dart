@@ -4,9 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/weather.dart';
+import 'package:worksmart/splash/cached_data.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_bloc.dart';
 import 'package:worksmart/weather_bloc/weather_bloc_state.dart';
 import 'package:worksmart/getStrings.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   final cityName;
@@ -20,11 +23,13 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late Animation animation1;
   late AnimationController animationController;
+  bool result = true;
 
   @override
-  void initState() {
+  void initState() async {
     // TODO: implement initState
     super.initState();
+    result = await InternetConnection().hasInternetAccess;
     animationController = AnimationController(
         vsync: this, duration: Duration(milliseconds: 2500));
     animation1 = Tween(begin: 0.0, end: 250.0).animate(animationController);
@@ -104,6 +109,16 @@ class _HomePageState extends State<HomePage>
                   builder: (context, state) {
                     if (state is WeatherBlocSuccess) {
                       var strObj = new GetStrings();
+                      CachedData obj1 = new CachedData(
+                          key: widget.cityName,
+                          weatherCode: state.weather.weatherConditionCode!,
+                          tempFeels: state.weather.tempFeelsLike!.celsius!,
+                          weatherMain: state.weather.weatherMain!,
+                          date: state.weather.date!,
+                          sunrise: state.weather.sunrise!,
+                          sunset: state.weather.sunset!,
+                          tempMax: state.weather.tempMax!.celsius!,
+                          tempMin: state.weather.tempMin!.celsius!);
                       return SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height,
