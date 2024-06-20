@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -23,6 +23,18 @@ class _LandingScreenState extends State<LandingScreen> {
   static String cityName1 = '';
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   CurrentLocation obj = new CurrentLocation();
+  SharedPreferences? prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeSharedPreferences();
+  }
+
+  Future<void> _initializeSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
+    // Optionally, you can load initial data here if needed.
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,33 +114,52 @@ class _LandingScreenState extends State<LandingScreen> {
                       }
                     }
                   } on SocketException catch (_) {
-                    showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                              actions: [
-                                TextButton(
-                                  child: Text('Yes'),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              HomePage(cityName: cityName1)),
-                                    );
-                                  },
-                                ),
-                                TextButton(
-                                  child: Text('No'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                              title: Text('Error'),
-                              content: Text(
-                                  'You are offline. Do you want to see cached data?'),
-                              contentPadding: const EdgeInsets.all(8),
-                            ));
+                    if (prefs!.containsKey('${cityName1}_sunrise')) {
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                actions: [
+                                  TextButton(
+                                    child: Text('Yes'),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                HomePage(cityName: cityName1)),
+                                      );
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text('No'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                                title: Text('Error'),
+                                content: Text(
+                                    'You are offline. Do you want to see cached data?'),
+                                contentPadding: const EdgeInsets.all(8),
+                              ));
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                actions: [
+                                  TextButton(
+                                    child: Text('Ok'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                                title: Text('Error'),
+                                content: Text(
+                                    'Cached data for the given city does not exist'),
+                                contentPadding: const EdgeInsets.all(8),
+                              ));
+                    }
                   }
                 },
                 child: Text("Get weather information",
