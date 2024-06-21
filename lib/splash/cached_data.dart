@@ -24,7 +24,7 @@ class CachedData {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('${key}_weathercode', weatherCode);
     await prefs.setInt('${key}_tempfeels', tempFeels);
-    await prefs.setString('${key}_weathermain}', weatherMain);
+    await prefs.setString('${key}_weathermain', weatherMain);
     await prefs.setString('${key}_date', date);
     await prefs.setString('${key}_sunrise', sunrise);
     await prefs.setString('${key}_sunset', sunset);

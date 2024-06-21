@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage>
                                   ),
                                   Center(
                                     child: Text(
-                                      (result)
+                                      result
                                           ? state.weather.weatherMain!
                                               .toUpperCase()
                                           : '${prefs!.getString('${widget.cityName}_weathermain')}',

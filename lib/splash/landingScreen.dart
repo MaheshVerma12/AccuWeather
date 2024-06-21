@@ -122,6 +122,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                   TextButton(
                                     child: Text('Yes'),
                                     onPressed: () {
+                                      Navigator.of(context).pop();
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -156,8 +157,8 @@ class _LandingScreenState extends State<LandingScreen> {
                                 ],
                                 title: Text('Error'),
                                 content: Text(
-                                    'Cached data for the given city does not exist'),
-                                contentPadding: const EdgeInsets.all(8),
+                                    'You are offline! Cached data for the given city does not exist.'),
+                                contentPadding: const EdgeInsets.all(6),
                               ));
                     }
                   }
