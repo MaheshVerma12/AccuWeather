@@ -427,8 +427,11 @@ class _HomePageState extends State<HomePage>
                                           child: FittedBox(
                                             fit: BoxFit.fill,
                                             child: Text(
-                                              strObj.getTipString(state.weather
-                                                  .weatherConditionCode!),
+                                              strObj.getTipString(result
+                                                  ? (state.weather
+                                                      .weatherConditionCode!)
+                                                  : prefs!.getInt(
+                                                      '${widget.cityName}_weathercode')!),
                                               style: TextStyle(
                                                 fontSize: 27,
                                                 fontWeight: FontWeight.w500,
