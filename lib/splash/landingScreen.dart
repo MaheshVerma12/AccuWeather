@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,15 +25,17 @@ class _LandingScreenState extends State<LandingScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   CurrentLocation obj = new CurrentLocation();
   SharedPreferences? prefs;
+  var result;
 
   @override
   void initState() {
     super.initState();
-    _initializeSharedPreferences();
+    _initializeAsyncVar();
   }
 
-  Future<void> _initializeSharedPreferences() async {
+  Future<void> _initializeAsyncVar() async {
     prefs = await SharedPreferences.getInstance();
+    result = await InternetConnection().hasInternetAccess;
     // Optionally, you can load initial data here if needed.
   }
 
@@ -126,8 +129,9 @@ class _LandingScreenState extends State<LandingScreen> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                HomePage(cityName: cityName1)),
+                                            builder: (context) => HomePage(
+                                                  cityName: cityName1,
+                                                )),
                                       );
                                     },
                                   ),

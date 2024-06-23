@@ -23,9 +23,9 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late Animation animation1;
   late AnimationController animationController;
-  var result;
   SharedPreferences? prefs;
   late Future<void> _futureData;
+  var result;
 
   @override
   void initState() {
@@ -69,9 +69,11 @@ class _HomePageState extends State<HomePage>
       body: FutureBuilder<void>(
         future: _futureData,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting ||
+              snapshot.connectionState == ConnectionState.none) {
             return Center(child: CircularProgressIndicator());
-          } else {
+          } else if (snapshot.connectionState == ConnectionState.done ||
+              result == false) {
             return SingleChildScrollView(
               child: Padding(
                 padding:
@@ -124,28 +126,32 @@ class _HomePageState extends State<HomePage>
                         builder: (context, state) {
                           if (state is WeatherBlocSuccess) {
                             var strObj = new GetStrings();
-                            CachedData obj1 = new CachedData(
-                                key: widget.cityName,
-                                weatherCode:
-                                    state.weather.weatherConditionCode!,
-                                tempFeels: state.weather.tempFeelsLike!.celsius!
-                                    .round(),
-                                weatherMain:
-                                    state.weather.weatherMain!.toUpperCase(),
-                                date: DateFormat('EEEE dd')
-                                    .add_jm()
-                                    .format(state.weather.date!),
-                                sunrise: DateFormat()
-                                    .add_jm()
-                                    .format(state.weather.sunrise!),
-                                sunset: DateFormat()
-                                    .add_jm()
-                                    .format(state.weather.sunset!),
-                                tempMax: state.weather.tempMax!.celsius!
-                                    .roundToDouble(),
-                                tempMin: state.weather.tempMin!.celsius!
-                                    .roundToDouble());
-                            obj1.storeCache();
+                            print(result);
+                            if (result == true) {
+                              CachedData obj1 = new CachedData(
+                                  key: widget.cityName,
+                                  weatherCode:
+                                      state.weather.weatherConditionCode!,
+                                  tempFeels: state
+                                      .weather.tempFeelsLike!.celsius!
+                                      .round(),
+                                  weatherMain:
+                                      state.weather.weatherMain!.toUpperCase(),
+                                  date: DateFormat('EEEE dd')
+                                      .add_jm()
+                                      .format(state.weather.date!),
+                                  sunrise: DateFormat()
+                                      .add_jm()
+                                      .format(state.weather.sunrise!),
+                                  sunset: DateFormat()
+                                      .add_jm()
+                                      .format(state.weather.sunset!),
+                                  tempMax: state.weather.tempMax!.celsius!
+                                      .roundToDouble(),
+                                  tempMin: state.weather.tempMin!.celsius!
+                                      .roundToDouble());
+                              obj1.storeCache();
+                            }
 
                             return SizedBox(
                               width: MediaQuery.of(context).size.width,
@@ -448,6 +454,8 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
             );
+          } else {
+            return Center(child: CircularProgressIndicator());
           }
         },
       ),
