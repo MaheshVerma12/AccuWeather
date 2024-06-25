@@ -160,8 +160,8 @@ class _LandingScreenState extends State<LandingScreen> {
                                   ),
                                 ],
                                 title: Text('Error'),
-                                content: Text(
-                                    'You are offline! Cached data for the given city does not exist.'),
+                                content:
+                                    Text('Internet connection not available!'),
                                 contentPadding: const EdgeInsets.all(6),
                               ));
                     }
